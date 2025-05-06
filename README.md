@@ -95,6 +95,28 @@ output = model.generate(text, use_torch_compile=True, verbose=True)
 model.save_audio("simple.mp3", output)
 ```
 
+If you're on Mac with Apple silicon, you can use the following code to make it work. It'll only run on CPU though.
+
+```python
+from dia.model import Dia
+import torch
+
+device = torch.device("cpu")
+
+# Pass the device parameter directly when loading
+model = Dia.from_pretrained(
+    "nari-labs/Dia-1.6B",
+    compute_dtype="float32",
+    device=device
+)
+
+text = "[S1] Dia is an open weights text to dialogue model. [S2] You get full control over scripts and voices. [S1] Wow. Amazing. (laughs) [S2] Try it now on Git hub or Hugging Face."
+
+output = model.generate(text, use_torch_compile=False, verbose=True)
+
+model.save_audio("simple.mp3", output)
+```
+
 A pypi package and a working CLI tool will be available soon.
 
 ## 💻 Hardware and Inference Speed
