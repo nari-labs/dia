@@ -46,6 +46,13 @@ We also provide a [demo page](https://yummy-fir-7a4.notion.site/dia) comparing o
 pip install git+https://github.com/nari-labs/dia.git
 ```
 
+### Set HF_TOKEN ENV var
+
+```bash
+# Set the HF_TOKEN ENV var to auto download config from HF Hub
+export HF_TOKEN="your token"
+```
+
 ### Run the Gradio UI
 
 This will open a Gradio UI that you can work on.
