@@ -15,6 +15,7 @@ from dia.model import Dia
 # --- Global Setup ---
 parser = argparse.ArgumentParser(description="Gradio interface for Nari TTS")
 parser.add_argument("--device", type=str, default=None, help="Force device (e.g., 'cuda', 'mps', 'cpu')")
+parser.add_argument("--compute_dtype", type=str, default="float32", help="Computation data type (e.g., 'float32', 'float16', 'bfloat16')")
 parser.add_argument("--share", action="store_true", help="Enable Gradio sharing")
 
 args = parser.parse_args()
@@ -38,7 +39,7 @@ print(f"Using device: {device}")
 print("Loading Nari model...")
 try:
     # Use the function from inference.py
-    model = Dia.from_pretrained("nari-labs/Dia-1.6B", compute_dtype="float16", device=device)
+    model = Dia.from_pretrained("nari-labs/Dia-1.6B", compute_dtype=args.compute_dtype, device=device)
 except Exception as e:
     print(f"Error loading Nari model: {e}")
     raise
