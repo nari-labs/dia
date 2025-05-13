@@ -22,6 +22,7 @@ To accelerate research, we are providing access to pretrained model checkpoints 
 We also provide a [demo page](https://yummy-fir-7a4.notion.site/dia) comparing our model to [ElevenLabs Studio](https://elevenlabs.io/studio) and [Sesame CSM-1B](https://github.com/SesameAILabs/csm).
 
 - (Update) We have a ZeroGPU Space running! Try it now [here](https://huggingface.co/spaces/nari-labs/Dia-1.6B). Thanks to the HF team for the support :)
+- (Update) We have added an Ipynb file so you can directly test it on colab too. Have Fun! [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nari-labs/dia/blob/main/Dia_1.6_colab.ipynb)
 - Join our [discord server](https://discord.gg/gcMTW7XA) for community support and access to new features.
 - Play with a larger version of Dia: generate fun conversations, remix content, and share with friends. 🔮 Join the [waitlist](https://tally.so/r/meokbo) for early access.
 
