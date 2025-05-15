@@ -8,7 +8,7 @@ wheels/
 
 # Virtual environments
 .venv
-
+.idea/
 .gradio
 
 **/*.pth
