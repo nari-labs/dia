@@ -19,3 +19,9 @@ wheels/
 .ruff_cache
 .ipynb_checkpoints
 config.json
+
+# Replicate
+.cog
+/model_cache/*
+*.wav
+*.mp3
