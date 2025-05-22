@@ -10,6 +10,7 @@ authors = [
 ]
 dependencies = [
     "descript-audio-codec>=1.0.0",
+    "fastapi>=0.104.0",
     "gradio>=5.25.2",
     "huggingface-hub>=0.30.2",
     "numpy>=2.2.4",
@@ -20,6 +21,7 @@ dependencies = [
     "torchaudio==2.6.0",
     "triton==3.2.0 ; sys_platform == 'linux'",
     "triton-windows==3.2.0.post18 ; sys_platform == 'win32'",
+    "uvicorn>=0.24.0",
 ]
 
 [build-system]
