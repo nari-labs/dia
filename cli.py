@@ -90,7 +90,7 @@ def main():
     # Set seed if provided
     if args.seed is not None:
         set_seed(args.seed)
-        print(f"Using random seed: {args.seed}")
+        print(f"Using user-selected seed: {args.seed}")
 
     # Determine device
     device = torch.device(args.device)
