@@ -1,6 +1,6 @@
 import time
 from enum import Enum
-from typing import Callable
+from typing import Callable, Optional
 
 import numpy as np
 import torch
@@ -600,8 +600,9 @@ class Dia:
         top_p: float = 0.95,
         use_torch_compile: bool = False,
         cfg_filter_top_k: int = 45,
-        audio_prompt: list[str | torch.Tensor | None] | str | torch.Tensor | None = None,
-        audio_prompt_path: list[str | torch.Tensor | None] | str | torch.Tensor | None = None,
+        audio_prompt: str | torch.Tensor | None = None,
+        audio_prompt_path: str | None = None,
+        audio_prompt_text: Optional[str] = None,
         use_cfg_filter: bool | None = None,
         verbose: bool = False,
     ) -> np.ndarray | list[np.ndarray]:
@@ -647,6 +648,10 @@ class Dia:
         if audio_prompt_path:
             print("Warning: audio_prompt_path is deprecated. Use audio_prompt instead.")
             audio_prompt = audio_prompt_path
+        if audio_prompt_text:
+            full_text = f"{audio_prompt_text.strip()}\n{text.strip()}"
+        else:
+            full_text = text.strip()
         if use_cfg_filter is not None:
             print("Warning: use_cfg_filter is deprecated.")
 
