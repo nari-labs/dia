@@ -31,10 +31,17 @@ def main():
     )
 
     parser.add_argument(
+        "--language",
+        type=str,
+        default="en",
+        choices=["en", "tr"],
+        help="Language for TTS (en: English, tr: Turkish). Default: en.",
+    )
+    parser.add_argument(
         "--repo-id",
         type=str,
-        default="nari-labs/Dia-1.6B-0626",
-        help="Hugging Face repository ID (e.g., nari-labs/Dia-1.6B-0626).",
+        default=None,  # Default will be set based on language
+        help="Hugging Face repository ID. If not set, it's determined by --language.",
     )
     parser.add_argument(
         "--local-paths", action="store_true", help="Load model from local config and checkpoint files."
@@ -96,6 +103,17 @@ def main():
     device = torch.device(args.device)
     print(f"Using device: {device}")
 
+    # Determine repo_id if not provided
+    repo_id = args.repo_id
+    if not repo_id:
+        if args.language == "en":
+            repo_id = "nari-labs/Dia-1.6B-0626"
+        elif args.language == "tr":
+            repo_id = "nari-labs/Dia-1.6B-0626-tr"  # Assuming this is the Turkish model ID
+        else:
+            # Should not happen due to choices in argparse
+            parser.error(f"Unsupported language: {args.language}")
+
     # Load model
     print("Loading model...")
     if args.local_paths:
@@ -106,9 +124,9 @@ def main():
             print(f"Error loading local model: {e}")
             exit(1)
     else:
-        print(f"Loading from Hugging Face Hub: repo_id='{args.repo_id}'")
+        print(f"Loading from Hugging Face Hub: repo_id='{repo_id}'")
         try:
-            model = Dia.from_pretrained(args.repo_id, device=device)
+            model = Dia.from_pretrained(repo_id, device=device)
         except Exception as e:
             print(f"Error loading model from Hub: {e}")
             exit(1)

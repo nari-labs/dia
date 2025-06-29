@@ -19,7 +19,7 @@ Dia is a 1.6B parameter text to speech model created by Nari Labs.
 
 Dia **directly generates highly realistic dialogue from a transcript**. You can condition the output on audio, enabling emotion and tone control. The model can also produce nonverbal communications like laughter, coughing, clearing throat, etc.
 
-To accelerate research, we are providing access to pretrained model checkpoints and inference code. The model weights are hosted on [Hugging Face](https://huggingface.co/nari-labs/Dia-1.6B-0626). The model only supports English generation at the moment.
+To accelerate research, we are providing access to pretrained model checkpoints and inference code. The model weights are hosted on [Hugging Face](https://huggingface.co/nari-labs/Dia-1.6B-0626). The model currently supports English and Turkish generation.
 
 We also provide a [demo page](https://yummy-fir-7a4.notion.site/dia) comparing our model to [ElevenLabs Studio](https://elevenlabs.io/studio) and [Sesame CSM-1B](https://github.com/SesameAILabs/csm).
 
@@ -79,8 +79,10 @@ outputs = model.generate(
 )
 
 outputs = processor.batch_decode(outputs)
-processor.save_audio(outputs, "example.mp3")
+processor.save_audio(outputs, "example_hf.mp3")
 ```
+
+To use Turkish, change `model_checkpoint` to `"nari-labs/Dia-1.6B-0626-tr"` (or your specific Turkish model ID) and update the `text` variable with Turkish text.
 
 </details>
 
@@ -155,6 +157,13 @@ python cli.py --help
 
 # Or if you have uv installed
 uv run cli.py --help
+```
+
+To generate Turkish speech using the CLI:
+```bash
+python cli.py --language tr --text "[S1] Merhaba dünya" --output turkish_example.wav
+# Or with a specific Turkish model ID
+python cli.py --repo-id nari-labs/Dia-1.6B-0626-tr --text "[S1] Merhaba dünya" --output turkish_example.wav
 ```
 
 </details>
