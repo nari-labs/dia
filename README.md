@@ -176,6 +176,24 @@ uv run cli.py --help
   - In the Hugging Face space, you can upload the audio you want to clone and place its transcript before your script. Make sure the transcript follows the required format. The model will then output only the content of your script.
 
 
+### Run on Modal
+
+We are providing a modal stub for easy deployment.
+To do this, you need to have a modal account.
+You can sign up [here](https://modal.com/signup) and follow the onboarding instructions.
+
+Then, install the modal CLI.
+
+```bash
+pip install modal
+```
+
+Now, you can run the following command.
+
+```bash
+uv run dia_modal_stub.py --script "[S1] Hello, how are you? [S2] I'm fine, thank you." --out output.wav
+```
+
 ## 💻 Hardware and Inference Speed
 
 Dia has been tested on only GPUs (pytorch 2.0+, CUDA 12.6). CPU support is to be added soon.
@@ -225,7 +243,6 @@ Join our [Discord Server](https://discord.gg/bJq6vjRRKv) for discussions.
 - Hugging Face for providing the ZeroGPU Grant.
 - "Nari" is a pure Korean word for lily.
 - We thank Jason Y. for providing help with data filtering.
-
 
 ## ⭐ Star History
 
