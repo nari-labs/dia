@@ -96,9 +96,10 @@ cd dia
 
 # Optionally
 python -m venv .venv && source .venv/bin/activate
+# On Windows: python -m venv .venv; ./.venv/Scripts/activate
 
 # Install dia
-pip install -e .z
+pip install -e .
 ```
 
 Or you can install without cloning.
