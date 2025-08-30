@@ -98,6 +98,9 @@ cd dia
 python -m venv .venv && source .venv/bin/activate
 # On Windows: python -m venv .venv; ./.venv/Scripts/activate
 
+# Optional: To allow GPU utilization, we must specify installation of CUDA-enabled wheels of torch libraries
+# pip install torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
+
 # Install dia
 pip install -e .
 ```
@@ -107,13 +110,9 @@ Or you can install without cloning.
 ```bash
 # Install directly from GitHub
 pip install git+https://github.com/nari-labs/dia.git
-```
 
-To enable allowing GPU utilization, we need to install CUDA-enabled wheels of torch libraries too:
-
-```bash
-# Reinstallation of torch libraries
-pip install torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
+# Optional: To allow GPU utilization, we must force installation of CUDA-enabled wheels of torch libraries
+# pip install torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126 --force-reinstall
 ```
 
 Now, run some examples.
