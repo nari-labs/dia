@@ -23,7 +23,7 @@ To accelerate research, we are providing access to pretrained model checkpoints 
 
 We also provide a [demo page](https://yummy-fir-7a4.notion.site/dia) comparing our model to [ElevenLabs Studio](https://elevenlabs.io/studio) and [Sesame CSM-1B](https://github.com/SesameAILabs/csm).
 
-- We have a ZeroGPU Space running! Try it now [here](https://huggingface.co/spaces/nari-labs/Dia-1.6B-0626). Thanks to the HF team for the support :)
+- We have a ZeroGPU Space running! Try it now [here](https://huggingface.co/spaces/nari-labs/Dia-1.6B). Thanks to the HF team for the support :)
 - Join our [discord server](https://discord.gg/bJq6vjRRKv) for community support and access to new features.
 - Play with a larger version of Dia: generate fun conversations, remix content, and share with friends. 🔮 Join the [waitlist](https://tally.so/r/meokbo) for early access.
 
@@ -98,7 +98,7 @@ cd dia
 python -m venv .venv && source .venv/bin/activate
 
 # Install dia
-pip install -e .
+pip install -e .z
 ```
 
 Or you can install without cloning.
@@ -106,6 +106,13 @@ Or you can install without cloning.
 ```bash
 # Install directly from GitHub
 pip install git+https://github.com/nari-labs/dia.git
+```
+
+To enable allowing GPU utilization, we need to install CUDA-enabled wheels of torch libraries too:
+
+```bash
+# Reinstallation of torch libraries
+pip install torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
 ```
 
 Now, run some examples.
