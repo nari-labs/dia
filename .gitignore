@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+.claude
 
 # Virtual environments
 .venv
@@ -20,3 +21,6 @@ wheels/
 .ruff_cache
 .ipynb_checkpoints
 config.json
+CLAUDE.md
+CLAUDE.md
+.claude/settings.local.json
