@@ -47,12 +47,9 @@ line-length = 119
 lines-after-imports = 2
 
 [tool.uv.sources]
-torch = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-torchaudio = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
+torch = { index = "pytorch-cu126" }
+torchaudio = { index = "pytorch-cu126"}
+
 
 [[tool.uv.index]]
 name = "pytorch-cu126"
