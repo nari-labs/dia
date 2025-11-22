@@ -437,7 +437,7 @@ class Dia:
 
         uncond_logits_BxCxV = logits_last_Bx2xCxV[:, 0, :, :]  # Shape [B, C, V]
         cond_logits_BxCxV = logits_last_Bx2xCxV[:, 1, :, :]  # Shape [B, C, V]
-        logits_BxCxV = cond_logits_BxCxV + cfg_scale * (cond_logits_BxCxV - uncond_logits_BxCxV)
+        logits_BxCxV = uncond_logits_BxCxV + cfg_scale * (cond_logits_BxCxV - uncond_logits_BxCxV)
 
         _, top_k_indices_BxCxk = torch.topk(logits_BxCxV, k=top_k, dim=-1)
         mask_BxCxV = torch.ones_like(logits_BxCxV, dtype=torch.bool)
