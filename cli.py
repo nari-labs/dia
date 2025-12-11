@@ -9,14 +9,27 @@ import torch
 from dia.model import Dia
 
 
+def _get_default_device_str():
+    """Auto-detect the best available device."""
+    if torch.cuda.is_available():
+        return "cuda"
+    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
+
+
 def set_seed(seed: int):
-    """Sets the random seed for reproducibility."""
+    """Sets the random seed for reproducibility across all backends."""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    # CUDA-specific seeding
     if torch.cuda.is_available():
         torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
+    # MPS-specific seeding (Apple Silicon)
+    if hasattr(torch, "mps") and torch.backends.mps.is_available():
+        torch.mps.manual_seed(seed)
     # Ensure deterministic behavior for cuDNN (if used)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
@@ -70,8 +83,8 @@ def main():
     infra_group.add_argument(
         "--device",
         type=str,
-        default="cuda" if torch.cuda.is_available() else "cpu",
-        help="Device to run inference on (e.g., 'cuda', 'cpu', default: auto).",
+        default=_get_default_device_str(),
+        help="Device to run inference on ('cuda', 'mps', 'cpu', default: auto-detect).",
     )
 
     args = parser.parse_args()
