@@ -55,13 +55,18 @@ except Exception as e:
 
 
 def set_seed(seed: int):
-    """Sets the random seed for reproducibility."""
+    """Sets the random seed for reproducibility across all backends."""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    # CUDA-specific seeding
     if torch.cuda.is_available():
         torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
+    # MPS-specific seeding (Apple Silicon)
+    if hasattr(torch, "mps") and torch.backends.mps.is_available():
+        torch.mps.manual_seed(seed)
+    # Ensure deterministic behavior for cuDNN (if used)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 

@@ -1,3 +1,4 @@
+import sys
 from random import choice
 
 import torch
@@ -5,9 +6,11 @@ import torch
 from dia.model import Dia
 
 
-torch._inductor.config.coordinate_descent_tuning = True
-torch._inductor.config.triton.unique_kernel_names = True
-torch._inductor.config.fx_graph_cache = True
+# Only configure Triton on platforms where it's available (Linux/Windows)
+if sys.platform in ("linux", "win32"):
+    torch._inductor.config.coordinate_descent_tuning = True
+    torch._inductor.config.triton.unique_kernel_names = True
+    torch._inductor.config.fx_graph_cache = True
 
 # debugging
 torch._logging.set_logs(graph_breaks=True, recompiles=True)

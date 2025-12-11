@@ -1,0 +1,53 @@
+# Dockerfile.arm - ARM64 Linux deployment for DIA (CPU-only)
+# --------------------------------------------------
+# Build: docker buildx build --platform linux/arm64 -f docker/Dockerfile.arm -t dia-arm .
+# Run:   docker run --rm -p 7860:7860 dia-arm
+#
+# Note: This is for ARM64 Linux (e.g., AWS Graviton, Ampere Altra, Raspberry Pi).
+#       macOS users should install natively for MPS GPU acceleration - Docker cannot
+#       access the MPS backend as it runs in a Linux VM.
+
+FROM --platform=linux/arm64 python:3.10-slim
+
+# Set non-interactive frontend
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install venv, and system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-venv \
+    libsndfile1 \
+    ffmpeg \
+    curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user and set up directories
+RUN useradd -m -u 1001 appuser && \
+    mkdir -p /app/outputs /app && \
+    chown -R appuser:appuser /app
+
+USER appuser
+WORKDIR /app
+
+# Copy all code (including pyproject.toml)
+COPY --chown=appuser:appuser . .
+
+# Create and activate virtual environment
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+
+# Install PyTorch for ARM64 (CPU-only, no Triton available)
+# ARM64 wheels are available on PyPI, no special index needed
+RUN pip install --upgrade pip && \
+    pip install torch torchaudio && \
+    pip install --no-cache-dir -e .[dev]
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+# Expose Gradio default port
+ENV GRADIO_SERVER_NAME="0.0.0.0"
+EXPOSE 7860
+
+# Entrypoint
+CMD ["python3", "app.py"]
