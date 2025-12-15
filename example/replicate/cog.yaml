@@ -1,0 +1,34 @@
+# Configuration for Cog ⚙️
+# Reference: https://cog.run/yaml
+
+build:
+  # set to true if your model requires a GPU
+  gpu: true
+  cuda: "12.1"  # Specify CUDA version compatible with torch==2.6.0+cu126
+
+  # a list of ubuntu apt packages to install
+  system_packages:
+    - "libsndfile1" # For soundfile
+    - "ffmpeg" # For audio processing (often needed by audio libs)
+
+  # python version in the form '3.11' or '3.11.4'
+  python_version: "3.10"
+
+  # path to a Python requirements.txt file
+  python_packages:
+    - "descript-audio-codec>=1.0.0"
+    - "huggingface-hub>=0.30.2"
+    - "numpy>=2.2.4"
+    - "pydantic>=2.11.3"
+    - "soundfile>=0.13.1"
+    - "torchaudio>=2.0.0"
+    - "torch>=2.0.0"
+    - "git+https://github.com/nari-labs/dia.git"
+
+  # commands run after the environment is setup
+  run:
+  - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)"
+  - chmod +x /usr/local/bin/pget
+
+# predict.py defines how predictions are run on your model
+predict: "predict.py:Predictor"
