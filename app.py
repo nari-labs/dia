@@ -4,6 +4,7 @@ import io
 import random
 import tempfile
 import time
+import os
 from pathlib import Path
 from typing import Optional, Tuple
 
@@ -19,6 +20,18 @@ from dia.model import Dia
 parser = argparse.ArgumentParser(description="Gradio interface for Nari TTS")
 parser.add_argument("--device", type=str, default=None, help="Force device (e.g., 'cuda', 'mps', 'cpu')")
 parser.add_argument("--share", action="store_true", help="Enable Gradio sharing")
+parser.add_argument(
+    "--username",
+    type=str,
+    default=os.getenv("GRADIO_USERNAME"),
+    help="Username for Gradio authentication. Also configurable via GRADIO_USERNAME env var.",
+)
+parser.add_argument(
+    "--password",
+    type=str,
+    default=os.getenv("GRADIO_PASSWORD"),
+    help="Password for Gradio authentication. Also configurable via GRADIO_PASSWORD env var.",
+)
 
 args = parser.parse_args()
 
@@ -439,6 +452,11 @@ with gr.Blocks(css=css, theme="gradio/dark") as demo:
 if __name__ == "__main__":
     print("Launching Gradio interface...")
 
+    auth_credentials = None
+    if args.username and args.password:
+        auth_credentials = (args.username, args.password)
+        print("Gradio authentication enabled.")
+
     # set `GRADIO_SERVER_NAME`, `GRADIO_SERVER_PORT` env vars to override default values
     # use `GRADIO_SERVER_NAME=0.0.0.0` for Docker
-    demo.launch(share=args.share)
+    demo.launch(share=args.share, auth=auth_credentials)
