@@ -1,4 +1,5 @@
 import time
+import warnings
 from enum import Enum
 from typing import Callable
 
@@ -654,10 +655,16 @@ class Dia:
             total_start_time = time.time()
 
         if use_torch_compile and not hasattr(self, "_compiled"):
-            # Compilation can take about a minute.
-            self._prepare_generation = torch.compile(self._prepare_generation, dynamic=True, fullgraph=True)
-            self._decoder_step = torch.compile(self._decoder_step, fullgraph=True, mode="max-autotune")
-            self._compiled = True
+            if self.device.type != "cuda":
+                warnings.warn(
+                    f"torch.compile with max-autotune is only supported on CUDA devices. "
+                    f"Current device: {self.device.type}. Skipping compilation."
+                )
+            else:
+                # Compilation can take about a minute.
+                self._prepare_generation = torch.compile(self._prepare_generation, dynamic=True, fullgraph=True)
+                self._decoder_step = torch.compile(self._decoder_step, fullgraph=True, mode="max-autotune")
+                self._compiled = True
 
         if isinstance(audio_prompt, list):
             audio_prompt = [self.load_audio(p) if isinstance(p, str) else p for p in audio_prompt]
@@ -698,7 +705,8 @@ class Dia:
                 break
 
             current_step_idx = dec_step + 1
-            torch.compiler.cudagraph_mark_step_begin()
+            if self.device.type == "cuda":
+                torch.compiler.cudagraph_mark_step_begin()
             dec_state.prepare_step(dec_step)
             tokens_Bx1xC = dec_output.get_tokens_at(dec_step).repeat_interleave(2, dim=0)  # Repeat for CFG
 
